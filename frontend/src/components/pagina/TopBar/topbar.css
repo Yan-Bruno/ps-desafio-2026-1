@@ -1,0 +1,69 @@
+.topBar {
+    background-color: #710808;
+    color: white;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    position: relative;
+    z-index: 1001;
+    overflow: hidden;
+    width: 100%;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    position: relative;
+    height: 20px;
+}
+
+.message {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 20px;
+}
+
+.message.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.message.exit {
+    opacity: 0;
+    transform: translateY(-100%);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .topBar {
+        font-size: 12px;
+        padding: 6px 0;
+    }
+
+    .container {
+        height: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .message {
+        font-size: 11px;
+        white-space: normal;
+        line-height: 1.4;
+    }
+
+    .container {
+        height: auto;
+        min-height: 16px;
+    }
+}

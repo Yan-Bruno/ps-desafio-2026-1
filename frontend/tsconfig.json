@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "src/components/pagina/Header/header.jsx"  ],
   "exclude": [
     "node_modules"
   ]
