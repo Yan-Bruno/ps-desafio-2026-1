@@ -1,0 +1,235 @@
+/* src/components/pagina/Opinion/opinion.css */
+.testimonials-section {
+  padding: 80px 0;
+  background-color: #ffffff;
+  text-align: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.testimonials-title {
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #710808;
+  font-weight: bold;
+  padding: 0 20px;
+}
+
+.testimonials-carousel {
+  width: 100%;
+  position: relative;
+}
+
+.testimonials-viewport {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.testimonials-container {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: scrollTestimonials 30s linear infinite;
+  padding: 10px 0;
+}
+
+.testimonials-container:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollTestimonials {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.testimonial-card {
+  background: #f8f8f8;
+  padding: 30px 20px;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.testimonial-card:hover {
+  transform: scale(1.05);
+  border-color: #710808;
+  box-shadow: 0 10px 25px rgba(113, 8, 8, 0.15);
+}
+
+.avatar-wrapper {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 15px;
+  border-radius: 50%;
+  border: 2px solid #710808;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.testimonial-card:hover .avatar-wrapper {
+  border-color: #710808;
+  border-width: 3px;
+}
+
+/* Estilo para avatar com iniciais */
+.initials-avatar {
+  background: linear-gradient(135deg, #710808, #a52a2a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.avatar-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-transform: uppercase;
+}
+
+.testimonial-card:hover .initials-avatar {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #8b0a0a, #b83b3b);
+}
+
+.testimonial-card h3 {
+  font-size: 1.1rem;
+  color: #333333;
+  margin: 5px 0;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.testimonial-card:hover h3 {
+  color: #710808;
+}
+
+.stars {
+  color: #710808;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  transition: transform 0.3s ease;
+}
+
+.testimonial-card:hover .stars {
+  transform: scale(1.1);
+  color: #710808;
+}
+
+.testimonial-text {
+  font-size: 0.9rem;
+  color: #666666;
+  line-height: 1.4;
+  margin: 0;
+  max-width: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  line-clamp: 4;
+  box-orient: vertical;
+  transition: color 0.3s ease;
+}
+
+.testimonial-card:hover .testimonial-text {
+  color: #333333;
+}
+
+@media (max-width: 768px) {
+  .testimonials-title {
+    font-size: 2rem;
+  }
+  
+  .testimonial-card {
+    width: 260px;
+    height: 260px;
+    padding: 20px;
+  }
+
+  .testimonials-container {
+    animation-duration: 25s;
+  }
+
+  .initials-avatar {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonials-title {
+    font-size: 1.5rem;
+  }
+  
+  .testimonial-card {
+    width: 220px;
+    height: 220px;
+  }
+  
+  .avatar-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .initials-avatar {
+    font-size: 1rem;
+  }
+  
+  .testimonial-card h3 {
+    font-size: 1rem;
+  }
+  
+  .stars {
+    font-size: 0.9rem;
+  }
+  
+  .testimonial-text {
+    font-size: 0.8rem;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .testimonials-container {
+    animation-duration: 20s;
+    gap: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-container {
+    animation: none;
+  }
+  
+  .testimonial-card:hover {
+    transform: none;
+  }
+  
+  .testimonial-card:hover .initials-avatar {
+    transform: none;
+  }
+  
+  .testimonial-card:hover .stars {
+    transform: none;
+  }
+}
