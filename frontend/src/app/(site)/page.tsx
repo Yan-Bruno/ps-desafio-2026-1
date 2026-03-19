@@ -1,13 +1,16 @@
-import Header from "@/components/pagina/Header/header";
+// app/page.tsx
 import TopBar from "@/components/pagina/TopBar/topbar";
+import Header from "@/components/pagina/Header/header";
+import Banner from "@/components/pagina/Banner_Video/banner_video";
 import Footer from "@/components/pagina/Footer/footer";
+
 export default async function Home() {
   return (
     <>
       <TopBar />
       <Header />
+      <Banner videoSrc="/assets/banner_video/eagle.mp4" />
       <Footer />
     </>
   )
 }
-

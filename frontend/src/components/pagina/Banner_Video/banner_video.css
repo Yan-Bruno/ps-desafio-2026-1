@@ -1,0 +1,227 @@
+/* frontend\src\components\VideoBanner.css */
+
+.video-banner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #000;
+}
+
+/* Alturas */
+.video-banner--full {
+  height: 100vh;
+  min-height: 600px;
+}
+
+.video-banner--medium {
+  height: 70vh;
+  min-height: 500px;
+}
+
+.video-banner--small {
+  height: 50vh;
+  min-height: 400px;
+}
+
+/* Vídeo - com suporte a zoom */
+.video-banner__video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* Classe para zoom out (diminuir) - mostra mais conteúdo */
+.video-banner__video--zoom-out {
+  transform: scale(0.8);  /* 80% do tamanho - mostra mais área */
+}
+
+/* Classe para zoom in (aumentar) - mostra menos conteúdo */
+.video-banner__video--zoom-in {
+  transform: scale(1.2);  /* 120% do tamanho - mostra menos área */
+}
+
+/* Se quiser controlar via style prop no componente, mantenha assim */
+
+/* FALLBACK - quando não tem vídeo */
+.video-banner__fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Tipos de fallback */
+.video-banner__fallback--solid {
+  background-color: #1a1a1a;
+}
+
+.video-banner__fallback--gradient-1 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.video-banner__fallback--gradient-2 {
+  background: linear-gradient(45deg, #ff6b6b 0%, #feca57 100%);
+}
+
+.video-banner__fallback--gradient-3 {
+  background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+}
+
+.video-banner__fallback--image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Overlay */
+.video-banner__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Overlay com cores diferentes */
+.video-banner__overlay--dark {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.video-banner__overlay--light {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.video-banner__overlay--blue {
+  background-color: rgba(0, 0, 255, 0.3);
+}
+
+/* Conteúdo */
+.video-banner__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  width: 90%;
+  max-width: 1200px;
+  text-align: center;
+  color: white;
+  pointer-events: none;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Animação para o conteúdo */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -30%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Botões e links */
+.video-banner__content button,
+.video-banner__content a {
+  pointer-events: auto;
+  transition: all 0.3s ease;
+}
+
+.video-banner__content button:hover,
+.video-banner__content a:hover {
+  transform: scale(1.05);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .video-banner--full {
+    height: 70vh;
+    min-height: 500px;
+  }
+
+  .video-banner--medium {
+    height: 60vh;
+    min-height: 400px;
+  }
+
+  .video-banner--small {
+    height: 40vh;
+    min-height: 300px;
+  }
+
+  .video-banner__content {
+    width: 95%;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -20%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .video-banner--full {
+    height: 60vh;
+    min-height: 400px;
+  }
+
+  .video-banner--medium {
+    height: 50vh;
+    min-height: 350px;
+  }
+
+  .video-banner--small {
+    height: 30vh;
+    min-height: 250px;
+  }
+
+  .video-banner__content {
+    width: 100%;
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .video-banner--full {
+    height: 100vh;
+    min-height: 400px;
+  }
+}
+
+/* Redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  .video-banner__video {
+    display: none;
+  }
+  
+  .video-banner {
+    background-image: url('/assets/banner_video/poster-fallback.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .video-banner__content {
+    animation: none;
+  }
+  
+  .video-banner__content button:hover,
+  .video-banner__content a:hover {
+    transform: none;
+  }
+}
