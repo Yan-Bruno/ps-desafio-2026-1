@@ -53,3 +53,18 @@
   background-color: #000;
   color: #fff;
 }
+
+/* ========== DARK MODE ========== */
+[data-theme='dark'] .ticker {
+  background-color: #ffffff;
+  border-top-color: #000000;
+  border-bottom-color: #000000;
+}
+
+[data-theme='dark'] .ticker-content span {
+  color: #000000;
+}
+
+[data-theme='dark'] .ticker-content span::before {
+  color: #000000;
+}

@@ -1,4 +1,5 @@
-// Footer.jsx
+// Footer.tsx
+"use client";
 import "./footer.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,7 +23,7 @@ const Footer = () => {
 
                 {/* 4 COLUNAS DE LINKS */}
                 <div className="footer-links-grid">
-                    {/* Coluna 1 - Sobre a Proper */}
+                    {/* Coluna 1 - Sobre a Eagle */}
                     <div className="footer-column">
                         <h3>Sobre a Eagle</h3>
                         <Link href="/blog">Eagle Blog</Link>
@@ -31,7 +32,7 @@ const Footer = () => {
                         <Link href="/seguranca">Segurança do Site</Link>
                     </div>
 
-                    {/* Coluna 2 - Fala com a gente */}
+                    {/* Coluna 2 - Fale com a gente */}
                     <div className="footer-column">
                         <h3>Fale com a gente</h3>
                         <Link href="/contato">Contato</Link>

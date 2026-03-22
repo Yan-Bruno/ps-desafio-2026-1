@@ -54,6 +54,8 @@
     padding: 8px 0;
     white-space: nowrap;
     opacity: 0.9;
+    line-height: normal;
+    font-family: inherit;
 }
 
 .nav a:hover {
@@ -83,13 +85,12 @@
     gap: 20px;
     flex-shrink: 0;
     margin-left: auto;
-    /* Garante que fique à direita */
 }
 
 .search-icon,
 .user-icon,
 .cart-icon {
-    color: white;
+    color: #000000;
     font-size: 20px;
     cursor: pointer;
     opacity: 0.9;
@@ -106,7 +107,7 @@
     display: none;
     background: none;
     border: none;
-    color: white;
+    color: #000000;
     font-size: 24px;
     cursor: pointer;
     padding: 8px;
@@ -147,13 +148,12 @@
         left: 0;
         transform: none;
         width: 100%;
-        background-color: #710808;
+        background-color: #ffffff;
         padding: 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         gap: 0;
         margin: 0;
-        /* Reset para mobile */
     }
 
     .nav.active {
@@ -163,10 +163,12 @@
     .nav a {
         width: 100%;
         padding: 15px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         font-size: 16px;
         white-space: normal;
         text-align: center;
+        color: #000000;
+        line-height: normal;
     }
 
     .nav a::after {
@@ -181,7 +183,12 @@
         gap: 15px;
         order: 1;
         margin-left: 0;
-        /* Reset para mobile */
+    }
+    
+    .search-icon,
+    .user-icon,
+    .cart-icon {
+        color: #000000;
     }
 }
 
@@ -235,4 +242,147 @@
     .nav {
         gap: 36px;
     }
+}
+
+/* ========== DARK MODE ========== */
+[data-theme='dark'] .header {
+  background-color: #1a1a1a;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  padding: 0;
+}
+
+[data-theme='dark'] .header .container {
+  min-height: 70px;
+  padding: 0 20px;
+}
+
+/* Logo no dark mode - mesmo tamanho do clean mode */
+[data-theme='dark'] .logo img {
+  max-width: 160px;
+  max-height: 45px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+[data-theme='dark'] .nav {
+  gap: 28px;
+}
+
+[data-theme='dark'] .nav a {
+  color: #ffffff;
+  opacity: 0.9;
+  padding: 8px 0;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  line-height: normal;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+[data-theme='dark'] .nav a:hover {
+  opacity: 1;
+  color: #ffffff;
+}
+
+[data-theme='dark'] .nav a::after {
+  background-color: #710808;
+  height: 2px;
+  bottom: 0;
+}
+
+[data-theme='dark'] .menu-toggle {
+  color: #ffffff;
+  padding: 8px;
+}
+
+[data-theme='dark'] .search-icon,
+[data-theme='dark'] .user-icon,
+[data-theme='dark'] .cart-icon {
+  color: #ffffff;
+}
+
+/* Dark mode responsivo */
+@media (max-width: 768px) {
+  [data-theme='dark'] .header .container {
+    min-height: 60px;
+    padding: 0 20px;
+  }
+  
+  /* Logo mobile dark mode */
+  [data-theme='dark'] .logo img {
+    max-width: 140px;
+    max-height: 40px;
+  }
+  
+  [data-theme='dark'] .nav {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 0;
+  }
+  
+  [data-theme='dark'] .nav a {
+    padding: 15px 0;
+    font-size: 16px;
+    line-height: normal;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  [data-theme='dark'] .header .container {
+    padding: 0 30px;
+  }
+  
+  /* Logo tablet dark mode */
+  [data-theme='dark'] .logo img {
+    max-width: 140px;
+  }
+  
+  [data-theme='dark'] .nav {
+    gap: 20px;
+  }
+  
+  [data-theme='dark'] .nav a {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1200px) {
+  [data-theme='dark'] .header .container {
+    padding: 0 50px;
+  }
+  
+  /* Logo desktop dark mode */
+  [data-theme='dark'] .logo img {
+    max-width: 170px;
+    max-height: 50px;
+  }
+  
+  [data-theme='dark'] .nav {
+    gap: 32px;
+  }
+  
+  [data-theme='dark'] .nav a {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1600px) {
+  [data-theme='dark'] .header .container {
+    padding: 0 60px;
+  }
+  
+  /* Logo tela grande dark mode */
+  [data-theme='dark'] .logo img {
+    max-width: 180px;
+    max-height: 55px;
+  }
+  
+  [data-theme='dark'] .nav {
+    gap: 36px;
+  }
 }

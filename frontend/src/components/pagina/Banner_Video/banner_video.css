@@ -225,3 +225,16 @@
     transform: none;
   }
 }
+
+/* ========== DARK MODE ========== */
+[data-theme='dark'] .video-banner__fallback {
+  background-color: #000000;
+}
+
+[data-theme='dark'] .video-banner__overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme='dark'] .video-banner__content {
+  color: #ffffff;
+}

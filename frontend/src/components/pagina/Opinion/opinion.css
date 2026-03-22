@@ -135,7 +135,6 @@
 
 .testimonial-card:hover .stars {
   transform: scale(1.1);
-  color: #710808;
 }
 
 .testimonial-text {
@@ -232,4 +231,70 @@
   .testimonial-card:hover .stars {
     transform: none;
   }
+}
+
+/* ========== DARK MODE - TUDO BRANCO, SOMENTE NOMES FICAM VERMELHOS NO HOVER ========== */
+[data-theme='dark'] .testimonials-section {
+  background-color: #0a0a0a;
+}
+
+[data-theme='dark'] .testimonials-title {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .testimonial-card {
+  background-color: #1a1a1a;
+  border-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .testimonial-card:hover {
+  transform: scale(1.05);
+  border-color: #ffffff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme='dark'] .avatar-wrapper {
+  border-color: #ffffff;
+}
+
+[data-theme='dark'] .testimonial-card:hover .avatar-wrapper {
+  border-color: #ffffff;
+  border-width: 3px;
+}
+
+[data-theme='dark'] .initials-avatar {
+  background: linear-gradient(135deg, #ffffff, #e0e0e0);
+  color: #0a0a0a;
+}
+
+[data-theme='dark'] .testimonial-card:hover .initials-avatar {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #ffffff, #e0e0e0);
+  color: #0a0a0a;
+}
+
+[data-theme='dark'] .testimonial-card h3 {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .testimonial-card:hover h3 {
+  color: #710808;
+}
+
+[data-theme='dark'] .stars {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .testimonial-card:hover .stars {
+  transform: scale(1.1);
+  color: #ffffff;
+}
+
+[data-theme='dark'] .testimonial-text {
+  color: #cccccc;
+}
+
+[data-theme='dark'] .testimonial-card:hover .testimonial-text {
+  color: #ffffff;
 }

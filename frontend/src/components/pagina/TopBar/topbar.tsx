@@ -1,35 +1,44 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import './TopBar.css'; // Importando o CSS normal
+import './TopBar.css';
 
-const TopBar = ({ 
+interface TopBarProps {
+  messages?: string[];
+  interval?: number;
+}
+
+const TopBar: React.FC<TopBarProps> = ({
   messages = [
     'CONTEÚDO QUE VALE PONTOS',
     'COMPRE AGORA COM FRETE GRÁTIS',
-    'USE SEUS PONTOS EAGLES E VOE COM CUPONS DE ATÉ 30% OFF '
+    'USE SEUS PONTOS EAGLES E VOE COM CUPONS DE ATÉ 30% OFF'
   ],
-  interval = 5000 
+  interval = 5000
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [animationClass, setAnimationClass] = useState('active');
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [animationClass, setAnimationClass] = useState<string>('active');
 
   useEffect(() => {
     const timer = setInterval(() => {
-      // Inicia a animação de saída
       setAnimationClass('exit');
-      
-      // Depois de 500ms, muda a mensagem e inicia a animação de entrada
+
       setTimeout(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % messages.length);
         setAnimationClass('active');
-      }, 500); // Metade do tempo da transição
-      
+      }, 500);
+
     }, interval);
 
-    // Limpa o intervalo quando o componente for desmontado
     return () => clearInterval(timer);
-  }, [messages.length, interval]); // Dependências do useEffect
+  }, [messages.length, interval]);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+  }, []);
 
   return (
     <div className="topBar">

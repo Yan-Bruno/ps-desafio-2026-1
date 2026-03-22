@@ -67,3 +67,8 @@
         min-height: 16px;
     }
 }
+
+/* ========== DARK MODE ========== */
+[data-theme='dark'] .topBar {
+  background-color: #4d4d4d;
+}

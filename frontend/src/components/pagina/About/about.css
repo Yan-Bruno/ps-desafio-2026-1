@@ -101,3 +101,28 @@
     max-width: 280px;
   }
 }
+
+/* ========== DARK MODE ========== */
+[data-theme='dark'] .aboutSection {
+  background: linear-gradient(145deg, #242424 0%, #222222 100%);
+}
+
+[data-theme='dark'] .title {
+  color: #979797;
+}
+
+[data-theme='dark'] .title::after {
+  background: linear-gradient(90deg, #710808, #710808);
+}
+
+[data-theme='dark'] .paragraph {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .strong {
+  color: #979797;
+}
+
+[data-theme='dark'] .image {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
