@@ -1,4 +1,4 @@
-// ProductCard.tsx
+// components/pagina/ProductCard/productcard.tsx
 import React from 'react';
 import './productcard.css';
 

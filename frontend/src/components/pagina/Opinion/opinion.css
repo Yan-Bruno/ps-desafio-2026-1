@@ -1,4 +1,3 @@
-/* src/components/pagina/Opinion/opinion.css */
 .testimonials-section {
   padding: 80px 0;
   background-color: #ffffff;
@@ -212,6 +211,58 @@
   .testimonials-container {
     animation-duration: 20s;
     gap: 15px;
+  }
+}
+
+/* NOVO - iPhone SE (375px) */
+@media (max-width: 375px) {
+  .testimonials-section {
+    padding: 40px 0;
+  }
+
+  .testimonials-title {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    padding: 0 15px;
+  }
+  
+  .testimonial-card {
+    width: 180px;
+    height: 200px;
+    padding: 15px;
+  }
+  
+  .avatar-wrapper {
+    width: 45px;
+    height: 45px;
+    margin-bottom: 10px;
+  }
+  
+  .initials-avatar {
+    font-size: 0.9rem;
+  }
+  
+  .testimonial-card h3 {
+    font-size: 0.85rem;
+    margin: 3px 0;
+  }
+  
+  .stars {
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+  
+  .testimonial-text {
+    font-size: 0.7rem;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    line-height: 1.3;
+  }
+
+  .testimonials-container {
+    animation-duration: 18s;
+    gap: 12px;
   }
 }
 

@@ -44,6 +44,56 @@
   }
 }
 
+/* Responsividade */
+@media (max-width: 768px) {
+  .ticker-content span {
+    font-size: 1rem;
+    padding-right: 25px;
+  }
+  
+  .ticker-content span::before {
+    margin-right: 25px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ticker {
+    padding: 8px 0;
+  }
+  
+  .ticker-content span {
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    padding-right: 20px;
+  }
+  
+  .ticker-content span::before {
+    margin-right: 20px;
+    font-size: 0.85rem;
+  }
+}
+
+/* NOVO - iPhone SE (375px) */
+@media (max-width: 375px) {
+  .ticker {
+    padding: 6px 0;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+  }
+
+  .ticker-content span {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    padding-right: 15px;
+  }
+
+  .ticker-content span::before {
+    margin-right: 15px;
+    font-size: 0.75rem;
+  }
+}
+
 [data-theme='light'] .ticker {
   background-color: #000;
   color: #fff;

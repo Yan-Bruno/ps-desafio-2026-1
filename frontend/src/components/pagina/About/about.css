@@ -102,6 +102,39 @@
   }
 }
 
+/* NOVO - iPhone SE (375px) */
+@media (max-width: 375px) {
+  .aboutSection {
+    padding: 30px 12px;
+  }
+
+  .aboutContainer {
+    gap: 20px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .title::after {
+    width: 50px;
+    height: 3px;
+  }
+
+  .paragraph {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 0.8rem;
+  }
+
+  .image {
+    max-width: 220px;
+    border-radius: 16px;
+  }
+}
+
 /* ========== DARK MODE ========== */
 [data-theme='dark'] .aboutSection {
   background: linear-gradient(145deg, #242424 0%, #222222 100%);

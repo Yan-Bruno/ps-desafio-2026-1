@@ -43,7 +43,8 @@
     transform: translateX(-50%);
 }
 
-.nav a {
+.nav a,
+.nav-link {
     color: #000000;
     text-decoration: none;
     font-weight: 500;
@@ -56,14 +57,19 @@
     opacity: 0.9;
     line-height: normal;
     font-family: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-.nav a:hover {
+.nav a:hover,
+.nav-link:hover {
     opacity: 1;
     color: #000000;
 }
 
-.nav a::after {
+.nav a::after,
+.nav-link::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -75,7 +81,8 @@
     transition: width 0.3s ease;
 }
 
-.nav a:hover::after {
+.nav a:hover::after,
+.nav-link:hover::after {
     width: 100%;
 }
 
@@ -114,11 +121,13 @@
 }
 
 /* Active state */
-.nav a.active {
+.nav a.active,
+.nav-link.active {
     opacity: 1;
 }
 
-.nav a.active::after {
+.nav a.active::after,
+.nav-link.active::after {
     width: 100%;
 }
 
@@ -160,7 +169,8 @@
         display: flex;
     }
 
-    .nav a {
+    .nav a,
+    .nav-link {
         width: 100%;
         padding: 15px 0;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -171,11 +181,13 @@
         line-height: normal;
     }
 
-    .nav a::after {
+    .nav a::after,
+    .nav-link::after {
         display: none;
     }
 
-    .nav a:last-child {
+    .nav a:last-child,
+    .nav-link:last-child {
         border-bottom: none;
     }
 
@@ -205,7 +217,8 @@
         gap: 20px;
     }
 
-    .nav a {
+    .nav a,
+    .nav-link {
         font-size: 14px;
     }
 }
@@ -224,7 +237,8 @@
         gap: 32px;
     }
 
-    .nav a {
+    .nav a,
+    .nav-link {
         font-size: 15px;
     }
 }
@@ -241,6 +255,44 @@
 
     .nav {
         gap: 36px;
+    }
+}
+
+/* NOVO - iPhone SE (375px) */
+@media (max-width: 375px) {
+    .header .container {
+        min-height: 55px;
+        padding: 0 12px;
+    }
+
+    .logo img {
+        max-width: 100px;
+        max-height: 32px;
+    }
+
+    .header-actions {
+        gap: 10px;
+    }
+
+    .search-icon,
+    .user-icon,
+    .cart-icon {
+        font-size: 16px;
+    }
+
+    .menu-toggle {
+        font-size: 20px;
+        padding: 6px;
+    }
+
+    .nav.active {
+        padding: 12px;
+    }
+
+    .nav a,
+    .nav-link {
+        padding: 10px 0;
+        font-size: 13px;
     }
 }
 
@@ -269,7 +321,8 @@
   gap: 28px;
 }
 
-[data-theme='dark'] .nav a {
+[data-theme='dark'] .nav a,
+[data-theme='dark'] .nav-link {
   color: #ffffff;
   opacity: 0.9;
   padding: 8px 0;
@@ -281,12 +334,14 @@
   white-space: nowrap;
 }
 
-[data-theme='dark'] .nav a:hover {
+[data-theme='dark'] .nav a:hover,
+[data-theme='dark'] .nav-link:hover {
   opacity: 1;
   color: #ffffff;
 }
 
-[data-theme='dark'] .nav a::after {
+[data-theme='dark'] .nav a::after,
+[data-theme='dark'] .nav-link::after {
   background-color: #710808;
   height: 2px;
   bottom: 0;
@@ -323,7 +378,8 @@
     gap: 0;
   }
   
-  [data-theme='dark'] .nav a {
+  [data-theme='dark'] .nav a,
+  [data-theme='dark'] .nav-link {
     padding: 15px 0;
     font-size: 16px;
     line-height: normal;
@@ -346,7 +402,8 @@
     gap: 20px;
   }
   
-  [data-theme='dark'] .nav a {
+  [data-theme='dark'] .nav a,
+  [data-theme='dark'] .nav-link {
     font-size: 14px;
   }
 }
@@ -366,7 +423,8 @@
     gap: 32px;
   }
   
-  [data-theme='dark'] .nav a {
+  [data-theme='dark'] .nav a,
+  [data-theme='dark'] .nav-link {
     font-size: 15px;
   }
 }
@@ -384,5 +442,28 @@
   
   [data-theme='dark'] .nav {
     gap: 36px;
+  }
+}
+
+/* NOVO - Dark mode iPhone SE (375px) */
+@media (max-width: 375px) {
+  [data-theme='dark'] .header .container {
+    min-height: 55px;
+    padding: 0 12px;
+  }
+  
+  [data-theme='dark'] .logo img {
+    max-width: 100px;
+    max-height: 32px;
+  }
+  
+  [data-theme='dark'] .nav.active {
+    padding: 12px;
+  }
+  
+  [data-theme='dark'] .nav a,
+  [data-theme='dark'] .nav-link {
+    padding: 10px 0;
+    font-size: 13px;
   }
 }

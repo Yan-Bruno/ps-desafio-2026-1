@@ -1,4 +1,3 @@
-
 'use client';
 import { useState } from "react";
 import Image from "next/image";
@@ -7,10 +6,18 @@ import DarkMode from "@/components/pagina/Dark_Mode/dark_mode";
 import "./header.css";
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (): void => {
     setMenuOpen(false);
+  };
+
+  const scrollToSection = (sectionId: string): void => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+      handleLinkClick();
+    }
   };
 
   return (
@@ -29,30 +36,51 @@ export default function Header() {
         </div>
 
         <nav className={`nav ${menuOpen ? "active" : ""}`}>
-          <Link href="/" onClick={handleLinkClick}>Home</Link>
-          <Link href="/produtos" onClick={handleLinkClick}>Produtos</Link>
-          <Link href="/sobre" onClick={handleLinkClick}>Sobre Nós</Link>
-          <Link href="/contato" onClick={handleLinkClick}>Contato</Link>
-          <Link href="/footer" onClick={handleLinkClick}>Footer</Link>
+          <button
+            onClick={() => scrollToSection('banner')}
+            className="nav-link"
+            type="button"
+          >
+            Banner
+          </button>
+          <button
+            onClick={() => scrollToSection('produtos')}
+            className="nav-link"
+            type="button"
+          >
+            Produtos
+          </button>
+          <button
+            onClick={() => scrollToSection('about')}
+            className="nav-link"
+            type="button"
+          >
+            About
+          </button>
+          <button
+            onClick={() => scrollToSection('opinion')}
+            className="nav-link"
+            type="button"
+          >
+            Opinion
+          </button>
+          <button
+            onClick={() => scrollToSection('footer')}
+            className="nav-link"
+            type="button"
+          >
+            Footer
+          </button>
         </nav>
 
         <div className="header-actions">
-          <div className="header-actions">
-            <DarkMode />
-            <button
-              className="menu-toggle"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
-              aria-expanded={menuOpen}
-            >
-              ☰
-            </button>
-          </div>
+          <DarkMode />
           <button
             className="menu-toggle"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
             aria-expanded={menuOpen}
+            type="button"
           >
             ☰
           </button>

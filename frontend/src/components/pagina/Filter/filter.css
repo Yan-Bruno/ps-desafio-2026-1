@@ -1,0 +1,358 @@
+/* components/pagina/Filter/filter.css */
+
+.filters-container {
+  background: var(--filter-bg);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.filters-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.clear-filters {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.clear-filters:hover {
+  background: var(--btn-secondary-bg);
+  color: var(--text-primary);
+}
+
+.filter-group {
+  margin-bottom: 24px;
+}
+
+.filter-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+/* Estilos base para inputs e selects */
+.search-input,
+.filter-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* REMOVE QUALQUER OUTLINE AZUL DO NAVEGADOR */
+.search-input:focus,
+.search-input:focus-visible,
+.filter-select:focus,
+.filter-select:focus-visible,
+.price-input:focus,
+.price-input:focus-visible {
+  outline: none !important;
+  outline-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* HOVER - cor #710808 */
+.search-input:hover,
+.filter-select:hover {
+  border-color: #710808 !important;
+}
+
+/* FOCUS - cor #710808 */
+.search-input:focus,
+.filter-select:focus {
+  border-color: #710808 !important;
+  box-shadow: 0 0 0 2px rgba(113, 8, 8, 0.2) !important;
+}
+
+/* ESTILOS ESPECÍFICOS DO SELECT - TODOS COM #710808 */
+.filter-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23710808' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 36px;
+}
+
+/* Remove TODOS os outlines e efeitos azuis em qualquer estado do select */
+.filter-select:focus,
+.filter-select:focus-visible,
+.filter-select:focus-within,
+.filter-select:active {
+  outline: none !important;
+  outline-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Aplica a cor #710808 quando focado */
+.filter-select:focus {
+  border-color: #710808 !important;
+  box-shadow: 0 0 0 2px rgba(113, 8, 8, 0.2) !important;
+}
+
+/* ESTILOS DAS OPÇÕES DO SELECT - TODOS COM #710808 */
+
+/* Fundo das opções quando selecionadas */
+.filter-select option:checked,
+.filter-select option:selected {
+  background: #710808 !important;
+  color: white !important;
+  background-image: linear-gradient(0deg, #710808 0%, #710808 100%) !important;
+}
+
+/* Hover nas opções */
+.filter-select option:hover {
+  background: #710808 !important;
+  color: white !important;
+  cursor: pointer;
+}
+
+/* Quando a opção está ativa/focada */
+.filter-select option:active,
+.filter-select option:focus {
+  background: #710808 !important;
+  color: white !important;
+}
+
+/* Para Firefox - remove highlight azul e usa #710808 */
+.filter-select option:-moz-focusring {
+  background: #710808 !important;
+  color: white !important;
+  outline: none !important;
+}
+
+.filter-select:focus::-moz-focus-inner {
+  border-color: #710808 !important;
+}
+
+/* Para Firefox - remove o fundo azul do select quando focado */
+.filter-select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 var(--text-primary);
+}
+
+/* Remove o fundo azul do select no Safari quando clicado */
+.filter-select:active {
+  background-color: var(--input-bg);
+}
+
+/* Borda do select em hover */
+.filter-select:hover {
+  border-color: #710808 !important;
+}
+
+.search-input::placeholder {
+  color: var(--text-secondary);
+}
+
+/* Price Range Styles */
+.price-range {
+  margin-top: 8px;
+}
+
+.price-inputs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.price-input-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  padding: 0 8px;
+  transition: all 0.3s ease;
+}
+
+.price-input-wrapper:hover {
+  border-color: #710808;
+}
+
+.price-input-wrapper span {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.price-input {
+  width: 100%;
+  padding: 8px 0;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+/* Remove outline azul do input de preço */
+.price-input:focus {
+  outline: none !important;
+}
+
+.price-separator {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.slider-container {
+  position: relative;
+  height: 40px;
+  display: flex;
+  gap: 8px;
+}
+
+.price-slider {
+  flex: 1;
+  height: 4px;
+  background: var(--slider-bg);
+  border-radius: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Remove outline azul do slider */
+.price-slider:focus {
+  outline: none !important;
+}
+
+.price-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #710808;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.price-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  background: #8a0a0a;
+}
+
+.price-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #710808;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.price-slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  background: #8a0a0a;
+}
+
+.price-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  background: var(--slider-bg);
+  border-radius: 4px;
+}
+
+.filter-result {
+  background: var(--btn-secondary-bg);
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  margin: 20px 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.filter-stats {
+  display: flex;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.stat-item i {
+  font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+  .filters-container {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filters-container {
+    padding: 16px;
+  }
+  
+  .price-inputs {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .price-input-wrapper {
+    width: 100%;
+  }
+  
+  .price-separator {
+    display: none;
+  }
+  
+  .filter-stats {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
