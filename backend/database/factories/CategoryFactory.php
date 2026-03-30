@@ -16,8 +16,29 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
+        $categories = [
+            'Capacetes',
+            'Bolas',
+            'Chuteiras',
+            'Raquetes',
+            'Luvas de Goleiro',
+            'Camisas de Time',
+            'Tênis Esportivos',
+            'Mochilas Esportivas',
+            'Joelheiras',
+            'Caneleiras',
+            'Camisas de Treino',
+            'Shorts Esportivos',
+            'Meias Esportivas',
+            'Óculos de Proteção',
+            'Pulseiras Esportivas',
+            'Bicicletas',
+            'Skates',
+            'Patins',
+        ];
+
         return [
-            //
+            'name' => $this->faker->unique()->randomElement($categories),
         ];
     }
 }

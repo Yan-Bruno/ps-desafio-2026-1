@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Usuários 
         User::factory(10)->create();
 
         $user = User::factory()->create([
@@ -20,5 +21,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
         $user->assignPermission('admin');
+
+        // Seeders do desafio
+        $this->call([
+            CategorySeeder::class,
+            ArticleSeeder::class,
+        ]);
     }
 }
