@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Articles;
 use Illuminate\Database\Seeder;
-use App\Models\Article;
 
 class ArticleSeeder extends Seeder
 {
@@ -13,7 +12,8 @@ class ArticleSeeder extends Seeder
      */
     public function run(): void
     {
-        Article::factory()
+        // Criar 50 artigos usando a factory
+        Articles::factory()
             ->count(50)
             ->create();
     }

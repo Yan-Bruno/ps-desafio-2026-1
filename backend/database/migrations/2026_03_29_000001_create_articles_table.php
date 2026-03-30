@@ -13,16 +13,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('brand');
             $table->decimal('price', 10, 2);
-            $table->year('launch_year');
+            $table->year('year');
             $table->string('image')->nullable();
-            $table->uuid('category_id');
-            $table->integer('stock_quantity')->default(0);
+            $table->foreignUuid('category_id')->constrained('categories')->onDelete('restrict');
+            $table->integer('amount')->default(0);
             $table->timestamps();
-            
-            $table->foreign('category_id')
-                  ->references('id')
-                  ->on('categories')
-                  ->onDelete('restrict');
         });
     }
 

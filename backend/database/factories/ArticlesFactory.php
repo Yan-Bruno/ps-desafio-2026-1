@@ -3,18 +3,16 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Articles;
 use App\Models\Category;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Articles>
  */
-class ArticleFactory extends Factory
+class ArticlesFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = Articles::class;
+
     public function definition(): array
     {
         $productsByCategory = [
@@ -193,10 +191,10 @@ class ArticleFactory extends Factory
             'name' => $product['name'],
             'brand' => $product['brand'],
             'price' => $this->faker->randomFloat(2, 29.90, 1499.90),
-            'launch_year' => $this->faker->numberBetween(2020, 2025),
+            'year' => $this->faker->numberBetween(2020, 2025),
             'image' => $this->faker->imageUrl(640, 480, 'sports', true),
             'category_id' => $category->id,
-            'stock_quantity' => $this->faker->numberBetween(0, 100),
+            'amount' => $this->faker->numberBetween(0, 100),
         ];
     }
 }
