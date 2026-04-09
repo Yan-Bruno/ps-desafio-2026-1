@@ -20,7 +20,7 @@ class ArticlesController extends Controller
 
     public function index(): JsonResponse
     {
-        $articles = $this->articles->with('category')->get();
+        $articles = $this->articles->with('category')->orderBy('updated_at', 'desc')->get();
         return response()->json($articles, Response::HTTP_OK);
     }
 
@@ -53,7 +53,6 @@ class ArticlesController extends Controller
                 $image_name = explode('articles/', $articles['image']);
                 Storage::disk('public')->delete('articles/' . $image_name[1]);
             } catch (\Throwable $e) {
-                // Ignora erro se não conseguir deletar
             } finally {
                 $path = $request->file('image')->store('articles', 'public');
                 $data['image'] = url('storage/' . $path);
@@ -71,7 +70,6 @@ class ArticlesController extends Controller
         return response()->json(['Message' => 'artigo esportivo deletado']);
     }
 
-    // MÉTODO DE COMPRA - DIMINUI O ESTOQUE
     public function buy($id): JsonResponse
     {
         try {
