@@ -17,39 +17,46 @@ import { useToast } from '@/components/use-toast'
 interface DialogInformationSportsItemProps {
   id: string
   children: React.ReactNode
-  isInformation?: boolean
 }
 
-export function DialogInformationSportsItem({
-  id,
-  children,
-}: DialogInformationSportsItemProps) {
+export function DialogInformationSportsItem({ id, children }: DialogInformationSportsItemProps) {
   const [sportsItem, setSportsItem] = useState<sportsItemType | null>(null)
-  const [open, setOpen] = useState<boolean>()
+  const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
   const { toast } = useToast()
 
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen)
+    if (!newOpen) {
+      setSportsItem(null)
+    }
+  }
+
   useEffect(() => {
+    if (!open) return
+
     const requestData = async () => {
-      const { response } = null
+      setLoading(true)
+      const { response, error } = await api('GET', `/articles/${id}`)
 
       if (response) {
-        setSportsItem(response)
+        setSportsItem(response as sportsItemType)
       } else {
-        setSportsItem(null)
         toast({
-          title: 'Artigo esportivo não encontrado!',
+          title: 'Erro',
+          description: error?.message || 'Artigo esportivo não encontrado!',
+          variant: 'destructive',
         })
         setOpen(false)
       }
+      setLoading(false)
     }
 
     requestData()
-
-    return () => setSportsItem(null)
-  }, [id, open, toast])
+  }, [open, id, toast])
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -58,7 +65,10 @@ export function DialogInformationSportsItem({
             Visualize as informações detalhadas do artigo esportivo abaixo.
           </DialogDescription>
         </DialogHeader>
-        <FormFieldsSportsItem sportsItem={sportsItem} readOnly />
+        {loading && <div>Carregando...</div>}
+        {sportsItem && !loading && (
+          <FormFieldsSportsItem sportsItem={sportsItem} readOnly />
+        )}
       </DialogContent>
     </Dialog>
   )

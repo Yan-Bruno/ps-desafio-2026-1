@@ -1,4 +1,3 @@
-/* dark_mode.css */
 .dark-mode-toggle {
   background: transparent;
   border: none;
@@ -12,14 +11,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--price-color);
+  color: #710808;
   background-color: var(--bg-secondary);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .dark-mode-toggle:hover {
   transform: rotate(15deg) scale(1.05);
-  background-color: var(--btn-secondary-hover);
+  background-color: var(--bg-elevated);
 }
 
 .dark-mode-toggle:active {
@@ -27,11 +26,10 @@
 }
 
 .dark-mode-toggle:focus-visible {
-  outline: 2px solid var(--btn-primary-bg);
+  outline: 2px solid #710808;
   outline-offset: 2px;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .dark-mode-toggle {
     width: 35px;
@@ -48,12 +46,10 @@
   }
 }
 
-/* Animation for theme switch */
 [data-theme="dark"] {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* High contrast mode support */
 @media (prefers-contrast: high) {
   .dark-mode-toggle {
     border: 1px solid currentColor;

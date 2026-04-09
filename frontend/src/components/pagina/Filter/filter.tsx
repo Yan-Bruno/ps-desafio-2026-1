@@ -1,9 +1,9 @@
-// components/pagina/Filters/filters.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
+import { getAllCategories, Category } from '@/services/category-services';
 import './filter.css';
-import { SportProduct } from '@/app/(site)/page';
+import { SportProduct } from '@/components/pagina/ProductCard/productcard';
 
 interface FiltersProps {
     products: SportProduct[];
@@ -17,73 +17,91 @@ interface FilterState {
     maxPrice: number;
     selectedBrand: string;
     selectedYear: string;
+    selectedPriceRange: string;
 }
 
+const priceRanges = [
+    { label: 'Todos os preços', min: 0, max: Infinity, value: 'all' },
+    { label: 'Até R$ 50', min: 0, max: 50, value: '0-50' },
+    { label: 'R$ 50 - R$ 100', min: 50, max: 100, value: '50-100' },
+    { label: 'R$ 100 - R$ 200', min: 100, max: 200, value: '100-200' },
+    { label: 'R$ 200 - R$ 500', min: 200, max: 500, value: '200-500' },
+    { label: 'Acima de R$ 500', min: 500, max: Infinity, value: '500+' },
+];
+
 export default function Filters({ products, onFilterChange }: FiltersProps) {
-    // Extrair categorias únicas
-    const categories = ['Todas', ...new Set(products.map(p => p.categoria))];
+    const [allCategories, setAllCategories] = useState<string[]>(['Todas']);
+    const [allBrands, setAllBrands] = useState<string[]>(['Todas']);
+    const [allYears, setAllYears] = useState<string[]>(['Todos']);
 
-    // Extrair marcas únicas
-    const brands = ['Todas', ...new Set(products.map(p => p.marca))];
-
-    // Extrair anos únicos
-    const years = ['Todos', ...new Set(products.map(p => p.anoLancamento.toString()))].sort((a, b) =>
-        b === 'Todos' ? -1 : a === 'Todos' ? 1 : parseInt(b) - parseInt(a)
-    );
-
-    // Estado dos filtros
     const [filters, setFilters] = useState<FilterState>({
         searchTerm: '',
         selectedCategory: 'Todas',
         minPrice: 0,
-        maxPrice: 2000,
+        maxPrice: Infinity,
         selectedBrand: 'Todas',
-        selectedYear: 'Todos'
+        selectedYear: 'Todos',
+        selectedPriceRange: 'all'
     });
 
     const [filteredCount, setFilteredCount] = useState(products.length);
-    const [priceRange, setPriceRange] = useState({ min: 0, max: 2000 });
+    const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
 
-    // Calcular preços mínimo e máximo dos produtos
+    // Buscar categorias da API
+    useEffect(() => {
+        async function loadCategories() {
+            const categories: Category[] = await getAllCategories();
+            setAllCategories(['Todas', ...categories.map((cat: Category) => cat.name)]);
+        }
+        loadCategories();
+    }, []);
+
+    // Extrair marcas e anos dos produtos
+    useEffect(() => {
+        if (products.length > 0) {
+            const brands = ['Todas', ...new Set(products.map(p => p.marca))];
+            const years = ['Todos', ...new Set(products.map(p => p.anoLancamento.toString()))].sort((a, b) =>
+                b === 'Todos' ? -1 : a === 'Todos' ? 1 : parseInt(b) - parseInt(a)
+            );
+            setAllBrands(brands);
+            setAllYears(years);
+        }
+    }, [products]);
+
+    // Calcular faixa de preço
     useEffect(() => {
         if (products.length > 0) {
             const prices = products.map(p => p.price);
             const min = Math.floor(Math.min(...prices));
             const max = Math.ceil(Math.max(...prices));
             setPriceRange({ min, max });
-            setFilters(prev => ({ ...prev, minPrice: min, maxPrice: max }));
         }
     }, [products]);
 
-    // Aplicar filtros em tempo real
+    // Filtrar produtos
     useEffect(() => {
         if (products.length === 0) return;
 
         let filtered = [...products];
 
-        // Filtro por nome
         if (filters.searchTerm.trim()) {
             filtered = filtered.filter(product =>
                 product.name.toLowerCase().includes(filters.searchTerm.toLowerCase())
             );
         }
 
-        // Filtro por categoria
         if (filters.selectedCategory !== 'Todas') {
             filtered = filtered.filter(product => product.categoria === filters.selectedCategory);
         }
 
-        // Filtro por marca
         if (filters.selectedBrand !== 'Todas') {
             filtered = filtered.filter(product => product.marca === filters.selectedBrand);
         }
 
-        // Filtro por ano
         if (filters.selectedYear !== 'Todos') {
             filtered = filtered.filter(product => product.anoLancamento.toString() === filters.selectedYear);
         }
 
-        // Filtro por preço
         filtered = filtered.filter(product =>
             product.price >= filters.minPrice && product.price <= filters.maxPrice
         );
@@ -93,7 +111,7 @@ export default function Filters({ products, onFilterChange }: FiltersProps) {
         if (onFilterChange) {
             onFilterChange(filtered);
         }
-    }, [filters, products, onFilterChange]);
+    }, [filters, products]);
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFilters(prev => ({ ...prev, searchTerm: e.target.value }));
@@ -111,18 +129,17 @@ export default function Filters({ products, onFilterChange }: FiltersProps) {
         setFilters(prev => ({ ...prev, selectedYear: e.target.value }));
     };
 
-    const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        const numValue = Number(value);
+    const handlePriceRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedValue = e.target.value;
+        const range = priceRanges.find(r => r.value === selectedValue);
 
-        if (name === 'minPrice') {
-            if (numValue <= filters.maxPrice) {
-                setFilters(prev => ({ ...prev, minPrice: numValue }));
-            }
-        } else if (name === 'maxPrice') {
-            if (numValue >= filters.minPrice) {
-                setFilters(prev => ({ ...prev, maxPrice: numValue }));
-            }
+        if (range) {
+            setFilters(prev => ({
+                ...prev,
+                selectedPriceRange: selectedValue,
+                minPrice: range.min,
+                maxPrice: range.max === Infinity ? priceRange.max : range.max
+            }));
         }
     };
 
@@ -130,10 +147,11 @@ export default function Filters({ products, onFilterChange }: FiltersProps) {
         setFilters({
             searchTerm: '',
             selectedCategory: 'Todas',
-            minPrice: priceRange.min,
-            maxPrice: priceRange.max,
+            minPrice: 0,
+            maxPrice: Infinity,
             selectedBrand: 'Todas',
-            selectedYear: 'Todos'
+            selectedYear: 'Todos',
+            selectedPriceRange: 'all'
         });
     };
 
@@ -142,8 +160,7 @@ export default function Filters({ products, onFilterChange }: FiltersProps) {
             filters.selectedCategory !== 'Todas' ||
             filters.selectedBrand !== 'Todas' ||
             filters.selectedYear !== 'Todos' ||
-            filters.minPrice !== priceRange.min ||
-            filters.maxPrice !== priceRange.max;
+            filters.selectedPriceRange !== 'all';
     };
 
     return (
@@ -159,7 +176,6 @@ export default function Filters({ products, onFilterChange }: FiltersProps) {
                 )}
             </div>
 
-            {/* Busca por nome */}
             <div className="filter-group">
                 <label className="filter-label">
                     <i className="fas fa-search"></i> Buscar produto
@@ -173,7 +189,6 @@ export default function Filters({ products, onFilterChange }: FiltersProps) {
                 />
             </div>
 
-            {/* Filtro por categoria */}
             <div className="filter-group">
                 <label className="filter-label">
                     <i className="fas fa-tag"></i> Categoria
@@ -183,13 +198,12 @@ export default function Filters({ products, onFilterChange }: FiltersProps) {
                     onChange={handleCategoryChange}
                     className="filter-select"
                 >
-                    {categories.map(cat => (
+                    {allCategories.map((cat: string) => (
                         <option key={cat} value={cat}>{cat}</option>
                     ))}
                 </select>
             </div>
 
-            {/* Filtro por marca */}
             <div className="filter-group">
                 <label className="filter-label">
                     <i className="fas fa-building"></i> Marca
@@ -199,13 +213,12 @@ export default function Filters({ products, onFilterChange }: FiltersProps) {
                     onChange={handleBrandChange}
                     className="filter-select"
                 >
-                    {brands.map(brand => (
+                    {allBrands.map((brand: string) => (
                         <option key={brand} value={brand}>{brand}</option>
                     ))}
                 </select>
             </div>
 
-            {/* Filtro por ano de lançamento */}
             <div className="filter-group">
                 <label className="filter-label">
                     <i className="fas fa-calendar-alt"></i> Ano de Lançamento
@@ -215,73 +228,41 @@ export default function Filters({ products, onFilterChange }: FiltersProps) {
                     onChange={handleYearChange}
                     className="filter-select"
                 >
-                    {years.map(year => (
+                    {allYears.map((year: string) => (
                         <option key={year} value={year}>{year}</option>
                     ))}
                 </select>
             </div>
 
-            {/* Filtro por faixa de preço */}
             <div className="filter-group">
                 <label className="filter-label">
                     <i className="fas fa-dollar-sign"></i> Faixa de Preço
                 </label>
-                <div className="price-range">
-                    <div className="price-inputs">
-                        <div className="price-input-wrapper">
-                            <span>R$</span>
-                            <input
-                                type="number"
-                                name="minPrice"
-                                value={filters.minPrice}
-                                onChange={handlePriceChange}
-                                min={priceRange.min}
-                                max={filters.maxPrice}
-                                className="price-input"
-                            />
-                        </div>
-                        <span className="price-separator">até</span>
-                        <div className="price-input-wrapper">
-                            <span>R$</span>
-                            <input
-                                type="number"
-                                name="maxPrice"
-                                value={filters.maxPrice}
-                                onChange={handlePriceChange}
-                                min={filters.minPrice}
-                                max={priceRange.max}
-                                className="price-input"
-                            />
-                        </div>
+                <select
+                    value={filters.selectedPriceRange}
+                    onChange={handlePriceRangeChange}
+                    className="filter-select price-range-select"
+                >
+                    {priceRanges.map((range) => (
+                        <option key={range.value} value={range.value}>
+                            {range.label}
+                        </option>
+                    ))}
+                </select>
+
+                {priceRange.min > 0 && priceRange.max > 0 && (
+                    <div className="price-info">
+                        <i className="fas fa-chart-line"></i>
+                        <span>Produtos de R$ {priceRange.min} até R$ {priceRange.max}</span>
                     </div>
-                    <div className="slider-container">
-                        <input
-                            type="range"
-                            min={priceRange.min}
-                            max={priceRange.max}
-                            value={filters.minPrice}
-                            onChange={(e) => setFilters(prev => ({ ...prev, minPrice: Number(e.target.value) }))}
-                            className="price-slider"
-                        />
-                        <input
-                            type="range"
-                            min={priceRange.min}
-                            max={priceRange.max}
-                            value={filters.maxPrice}
-                            onChange={(e) => setFilters(prev => ({ ...prev, maxPrice: Number(e.target.value) }))}
-                            className="price-slider"
-                        />
-                    </div>
-                </div>
+                )}
             </div>
 
-            {/* Resultado da filtragem */}
             <div className="filter-result">
                 <i className="fas fa-box-open"></i>
                 <span>{filteredCount} artigo(s) encontrado(s)</span>
             </div>
 
-            {/* Estatísticas rápidas */}
             <div className="filter-stats">
                 <div className="stat-item">
                     <i className="fas fa-store"></i>
@@ -289,7 +270,7 @@ export default function Filters({ products, onFilterChange }: FiltersProps) {
                 </div>
                 <div className="stat-item">
                     <i className="fas fa-tags"></i>
-                    <span>{categories.length - 1} categorias</span>
+                    <span>{allCategories.length - 1} categorias</span>
                 </div>
             </div>
         </div>

@@ -1,30 +1,80 @@
 'use client';
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import DarkMode from "@/components/pagina/Dark_Mode/dark_mode";
-import "./header.css";
+
+import { useState, useCallback, memo } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import DarkMode from '@/components/pagina/Dark_Mode/dark_mode';
+import './header.css';
+
+const NAV_ITEMS = [
+  { id: 'banner', label: 'Banner', sectionId: 'banner' },
+  { id: 'produtos', label: 'Produtos', sectionId: 'produtos' },
+  { id: 'sobre', label: 'Sobre', sectionId: 'about' },
+  { id: 'feedbacks', label: 'Feedbacks', sectionId: 'opinion' },
+  { id: 'informacoes', label: 'Informações', sectionId: 'footer' },
+] as const;
+
+const useScrollToSection = (onComplete?: () => void) => {
+  const scrollToSection = useCallback((sectionId: string) => {
+    try {
+      const element = document.getElementById(sectionId);
+
+      if (!element) {
+        console.warn(`Elemento não encontrado: ${sectionId}`);
+        return;
+      }
+
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+      onComplete?.();
+    } catch (error) {
+      console.error('Erro ao rolar para seção:', error);
+    }
+  }, [onComplete]);
+
+  return { scrollToSection };
+};
+
+const NavLinks = memo(({ onLinkClick }: { onLinkClick: () => void }) => {
+  const { scrollToSection } = useScrollToSection(onLinkClick);
+
+  return (
+    <>
+      {NAV_ITEMS.map((item) => (
+        <button
+          key={item.id}
+          onClick={() => scrollToSection(item.sectionId)}
+          className="nav-link"
+          type="button"
+        >
+          {item.label}
+        </button>
+      ))}
+    </>
+  );
+});
+
+NavLinks.displayName = 'NavLinks';
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
-  const handleLinkClick = (): void => {
-    setMenuOpen(false);
-  };
+  const toggleMenu = useCallback(() => {
+    setIsMenuOpen(prev => !prev);
+  }, []);
 
-  const scrollToSection = (sectionId: string): void => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-      handleLinkClick();
-    }
-  };
+  const closeMenu = useCallback(() => {
+    setIsMenuOpen(false);
+  }, []);
 
   return (
     <header className="header">
       <div className="container">
         <div className="logo">
-          <Link href="/" onClick={handleLinkClick}>
+          <Link href="/" onClick={closeMenu} aria-label="Página inicial">
             <Image
               src="/assets/logo_eagle.png"
               alt="Eagle Logo"
@@ -35,51 +85,17 @@ export default function Header() {
           </Link>
         </div>
 
-        <nav className={`nav ${menuOpen ? "active" : ""}`}>
-          <button
-            onClick={() => scrollToSection('banner')}
-            className="nav-link"
-            type="button"
-          >
-            Banner
-          </button>
-          <button
-            onClick={() => scrollToSection('produtos')}
-            className="nav-link"
-            type="button"
-          >
-            Produtos
-          </button>
-          <button
-            onClick={() => scrollToSection('about')}
-            className="nav-link"
-            type="button"
-          >
-            About
-          </button>
-          <button
-            onClick={() => scrollToSection('opinion')}
-            className="nav-link"
-            type="button"
-          >
-            Opinion
-          </button>
-          <button
-            onClick={() => scrollToSection('footer')}
-            className="nav-link"
-            type="button"
-          >
-            Footer
-          </button>
+        <nav className={`nav ${isMenuOpen ? 'active' : ''}`}>
+          <NavLinks onLinkClick={closeMenu} />
         </nav>
 
         <div className="header-actions">
           <DarkMode />
           <button
             className="menu-toggle"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
-            aria-expanded={menuOpen}
+            onClick={toggleMenu}
+            aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={isMenuOpen}
             type="button"
           >
             ☰

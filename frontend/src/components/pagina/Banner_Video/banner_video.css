@@ -1,5 +1,3 @@
-/* frontend\src\components\VideoBanner.css */
-
 .video-banner {
   position: relative;
   width: 100%;
@@ -7,7 +5,6 @@
   background-color: #000;
 }
 
-/* Alturas */
 .video-banner--full {
   height: 100vh;
   min-height: 600px;
@@ -23,7 +20,6 @@
   min-height: 400px;
 }
 
-/* Vídeo - com suporte a zoom */
 .video-banner__video {
   position: absolute;
   top: 0;
@@ -34,19 +30,14 @@
   z-index: 1;
 }
 
-/* Classe para zoom out (diminuir) - mostra mais conteúdo */
 .video-banner__video--zoom-out {
-  transform: scale(0.8);  /* 80% do tamanho - mostra mais área */
+  transform: scale(0.8);
 }
 
-/* Classe para zoom in (aumentar) - mostra menos conteúdo */
 .video-banner__video--zoom-in {
-  transform: scale(1.2);  /* 120% do tamanho - mostra menos área */
+  transform: scale(1.2);
 }
 
-/* Se quiser controlar via style prop no componente, mantenha assim */
-
-/* FALLBACK - quando não tem vídeo */
 .video-banner__fallback {
   position: absolute;
   top: 0;
@@ -56,7 +47,6 @@
   z-index: 1;
 }
 
-/* Tipos de fallback */
 .video-banner__fallback--solid {
   background-color: #1a1a1a;
 }
@@ -79,7 +69,6 @@
   background-repeat: no-repeat;
 }
 
-/* Overlay */
 .video-banner__overlay {
   position: absolute;
   top: 0;
@@ -90,7 +79,6 @@
   pointer-events: none;
 }
 
-/* Overlay com cores diferentes */
 .video-banner__overlay--dark {
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -103,7 +91,6 @@
   background-color: rgba(0, 0, 255, 0.3);
 }
 
-/* Conteúdo */
 .video-banner__content {
   position: absolute;
   top: 50%;
@@ -118,7 +105,6 @@
   animation: fadeIn 1s ease-in-out;
 }
 
-/* Animação para o conteúdo */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -130,7 +116,6 @@
   }
 }
 
-/* Botões e links */
 .video-banner__content button,
 .video-banner__content a {
   pointer-events: auto;
@@ -142,7 +127,6 @@
   transform: scale(1.05);
 }
 
-/* Media Queries */
 @media (max-width: 768px) {
   .video-banner--full {
     height: 70vh;
@@ -204,7 +188,6 @@
   }
 }
 
-/* Redução de movimento */
 @media (prefers-reduced-motion: reduce) {
   .video-banner__video {
     display: none;
@@ -226,7 +209,6 @@
   }
 }
 
-/* ========== DARK MODE ========== */
 [data-theme='dark'] .video-banner__fallback {
   background-color: #000000;
 }

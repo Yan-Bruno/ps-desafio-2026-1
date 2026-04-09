@@ -14,32 +14,47 @@ import {
 import { useToast } from '@/components/use-toast'
 import { useState } from 'react'
 
-interface DialogCreateCategoryProps {
+interface DialogCategoryDeleteProps {
   id: string
   children: React.ReactNode
+  onSuccess?: (id: string) => void
 }
 
-export function DialogCategoryDelete({
-  id,
-  children,
-}: DialogCreateCategoryProps) {
-  const [open, setOpen] = useState<boolean>()
+export function DialogCategoryDelete({ id, children, onSuccess }: DialogCategoryDeleteProps) {
+  const [open, setOpen] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const { toast } = useToast()
 
   const submit = async () => {
-    const { error } = await JSON.parse(await destroyCategory(id))
+    setIsDeleting(true)
 
-    if (error) {
+    try {
+      const result = JSON.parse(await destroyCategory(id))
+
+      if (result.error) {
+        toast({
+          title: 'Erro',
+          description: result.error.message || 'Não foi possível excluir a categoria!',
+          variant: 'destructive',
+        })
+        setIsDeleting(false)
+      } else {
+        toast({
+          title: 'Sucesso',
+          description: 'Categoria deletada com sucesso!',
+        })
+        setOpen(false)
+        setIsDeleting(false)
+        onSuccess?.(id)
+      }
+    } catch (error) {
       toast({
-        title: 'Não foi possível excluir a categoria!',
+        title: 'Erro',
+        description: 'Erro ao tentar excluir a categoria!',
+        variant: 'destructive',
       })
-    } else {
-      toast({
-        title: 'Categoria deletada com sucesso!',
-      })
+      setIsDeleting(false)
     }
-
-    setOpen(false)
   }
 
   return (
@@ -51,23 +66,25 @@ export function DialogCategoryDelete({
           <DialogDescription>
             Tem certeza de que deseja excluir esta categoria? Esta ação é
             irreversível e removerá permanentemente a categoria do sistema.
-            Deseja continuar com a exclusão?
           </DialogDescription>
         </DialogHeader>
-        <form action={submit}>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              type="button"
-              onClick={() => setOpen(false)}
-            >
-              Cancelar
-            </Button>
-            <Button variant="destructive" type="submit">
-              Excluir
-            </Button>
-          </DialogFooter>
-        </form>
+        <DialogFooter>
+          <Button
+            variant="outline"
+            type="button"
+            onClick={() => setOpen(false)}
+            disabled={isDeleting}
+          >
+            Cancelar
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={submit}
+            disabled={isDeleting}
+          >
+            {isDeleting ? 'Excluindo...' : 'Excluir'}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

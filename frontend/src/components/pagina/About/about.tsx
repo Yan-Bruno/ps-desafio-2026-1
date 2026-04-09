@@ -1,3 +1,4 @@
+// About.tsx
 import Image from "next/image";
 import "./about.css";
 
@@ -28,7 +29,6 @@ const About = () => {
     return (
         <section className="aboutSection" id="about">
             <div className="aboutContainer">
-
                 <div className="aboutImage">
                     <Image
                         src="/assets/imagens/eagle_about.png"
@@ -51,7 +51,6 @@ const About = () => {
                         </p>
                     ))}
                 </div>
-
             </div>
         </section>
     );

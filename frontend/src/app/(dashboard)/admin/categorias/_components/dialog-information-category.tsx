@@ -9,8 +9,7 @@ import {
   DialogDescription,
 } from '@/components/dialog'
 import FormFieldsCategory from './form-fields-category'
-import { categoryType } from '@/types/category'
-import SkeletonFormFieldsCategory from './skeleton-category'
+import { CategoryType } from '@/types/category'
 import { api } from '@/services/api'
 import { useEffect, useState } from 'react'
 import { useToast } from '@/components/use-toast'
@@ -18,39 +17,47 @@ import { useToast } from '@/components/use-toast'
 interface DialogInformationCategoryProps {
   id: string
   children: React.ReactNode
-  isInformation?: boolean
 }
 
-export function DialogInformationCategory({
-  id,
-  children,
-}: DialogInformationCategoryProps) {
-  const [category, setCategory] = useState<categoryType | null>(null)
-  const [open, setOpen] = useState<boolean>()
+export function DialogInformationCategory({ id, children }: DialogInformationCategoryProps) {
+  const [category, setCategory] = useState<CategoryType | null>(null)
+  const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
   const { toast } = useToast()
 
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen)
+    if (!newOpen) {
+      setCategory(null)
+    }
+  }
+
   useEffect(() => {
+    if (!open) return
+    setCategory(null)
+
     const requestData = async () => {
-      const { response } = null // requisicao para api
+      setLoading(true)
+      const { response, error } = await api('GET', `/category/${id}`)
 
       if (response) {
-        setCategory(response)
+        setCategory(response as CategoryType)
       } else {
-        setCategory(null)
         toast({
-          title: 'Categoria não encontrada!',
+          title: 'Erro',
+          description: error?.message || 'Categoria não encontrada!',
+          variant: 'destructive',
         })
         setOpen(false)
       }
+      setLoading(false)
     }
 
     requestData()
-
-    return () => setCategory(null)
-  }, [id, open, toast])
+  }, [open, id, toast])
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -59,10 +66,9 @@ export function DialogInformationCategory({
             Visualize as informações detalhadas da categoria abaixo.
           </DialogDescription>
         </DialogHeader>
-        {category ? (
+        {loading && <div>Carregando...</div>}
+        {category && !loading && (
           <FormFieldsCategory category={category} readOnly />
-        ) : (
-          <SkeletonFormFieldsCategory readOnly />
         )}
       </DialogContent>
     </Dialog>

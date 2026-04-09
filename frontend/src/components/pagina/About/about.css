@@ -54,7 +54,7 @@
   left: 0;
   width: 70px;
   height: 4px;
-  background: linear-gradient(90deg, #8b5a3c, #a67449);
+  background: linear-gradient(90deg, #710808, #710808);
   border-radius: 2px;
 }
 
@@ -102,7 +102,6 @@
   }
 }
 
-/* NOVO - iPhone SE (375px) */
 @media (max-width: 375px) {
   .aboutSection {
     padding: 30px 12px;
@@ -135,7 +134,6 @@
   }
 }
 
-/* ========== DARK MODE ========== */
 [data-theme='dark'] .aboutSection {
   background: linear-gradient(145deg, #242424 0%, #222222 100%);
 }

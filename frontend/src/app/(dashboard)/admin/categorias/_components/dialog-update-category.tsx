@@ -10,64 +10,83 @@ import {
 } from '@/components/dialog'
 import FormFieldsCategory from './form-fields-category'
 import { updateCategory } from '@/actions/category'
-import { filterFormData } from '@/services/filter-form-data'
 import { useEffect, useState } from 'react'
 import { useToast } from '@/components/use-toast'
-import { categoryType } from '@/types/category'
+import { CategoryType } from '@/types/category'
 import { ResponseErrorType, api } from '@/services/api'
 
 interface DialogUpdateCategoryProps {
   id: string
   children: React.ReactNode
+  onSuccess?: (updatedCategory: CategoryType) => void
 }
 
-export function DialogUpdateCategory({
-  id,
-  children,
-}: DialogUpdateCategoryProps) {
-  const [category, setCategory] = useState<categoryType | null>(null)
-  const [open, setOpen] = useState<boolean>()
+export function DialogUpdateCategory({ id, children, onSuccess }: DialogUpdateCategoryProps) {
+  const [category, setCategory] = useState<CategoryType | null>(null)
+  const [open, setOpen] = useState(false)
   const [error, setError] = useState<ResponseErrorType | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
   const { toast } = useToast()
 
   useEffect(() => {
+    if (!open) return
+    setCategory(null)
+
     const requestData = async () => {
-      const { response } = null // requisicao para api
+      setLoading(true)
+      const { response, error } = await api('GET', `/category/${id}`)
 
       if (response) {
-        setCategory(response)
+        setCategory(response as CategoryType)
       } else {
         setCategory(null)
         toast({
-          title: 'Categoria  não encontrada!',
+          title: 'Erro',
+          description: error?.message || 'Categoria não encontrada!',
+          variant: 'destructive',
         })
         setOpen(false)
       }
+      setLoading(false)
     }
 
     requestData()
-
-    return () => {
-      setCategory(null)
-      setError(null)
-    }
-  }, [id, open, toast])
+  }, [open, id, toast])
 
   const submit = async (form: FormData) => {
-    const newForm = await filterFormData(form)
+    setIsUpdating(true)
 
-    const { error } = await JSON.parse(await updateCategory(newForm))
+    form.append('id', id)
 
-    if (error) {
-      setError(error)
+    const result = JSON.parse(await updateCategory(form))
+
+    if (result.error) {
+      setError(result.error)
       toast({
-        title: 'Não foi possível editar a categoria!',
+        title: 'Erro',
+        description: result.error.message || 'Não foi possível editar a categoria!',
+        variant: 'destructive',
       })
+      setIsUpdating(false)
     } else {
       toast({
-        title: 'Categoria editado com sucesso!',
+        title: 'Sucesso',
+        description: 'Categoria editada com sucesso!',
       })
+
+      // Pega a categoria atualizada
+      const updatedCategory = {
+        ...category,
+        name: form.get('name') as string
+      } as CategoryType
+
       setOpen(false)
+      setError(null)
+      setIsUpdating(false)
+
+      // Chama o callback com a categoria atualizada
+      onSuccess?.(updatedCategory)
     }
   }
 
@@ -82,9 +101,12 @@ export function DialogUpdateCategory({
             &quot;Salvar&quot; para aplicar as alterações.
           </DialogDescription>
         </DialogHeader>
-        <form action={submit}>
-          <FormFieldsCategory error={error} category={category} />
-        </form>
+        {loading && <div>Carregando...</div>}
+        {!loading && category && (
+          <form action={submit}>
+            <FormFieldsCategory error={error} category={category} isPending={isUpdating} />
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   )

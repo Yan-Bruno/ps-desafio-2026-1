@@ -44,7 +44,7 @@
   }
 }
 
-/* Responsividade */
+
 @media (max-width: 768px) {
   .ticker-content span {
     font-size: 1rem;
@@ -74,7 +74,7 @@
   }
 }
 
-/* NOVO - iPhone SE (375px) */
+
 @media (max-width: 375px) {
   .ticker {
     padding: 6px 0;
@@ -104,7 +104,7 @@
   color: #fff;
 }
 
-/* ========== DARK MODE ========== */
+
 [data-theme='dark'] .ticker {
   background-color: #ffffff;
   border-top-color: #000000;

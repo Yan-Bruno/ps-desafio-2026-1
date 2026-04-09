@@ -1,11 +1,11 @@
-/* components/pagina/Filter/filter.css */
-
 .filters-container {
-  background: var(--filter-bg);
-  border-radius: 16px;
+  background: #ffffff;
+  border-radius: 12px;
   padding: 24px;
-  border: 1px solid var(--border-color);
-  transition: var(--transition);
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  animation: slideDown 0.3s ease;
 }
 
 .filters-header {
@@ -14,36 +14,42 @@
   align-items: center;
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .filters-title {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: 8px;
   margin: 0;
+  color: #333333;
+}
+
+.filters-title i {
+  color: #666666;
+  font-size: 1rem;
 }
 
 .clear-filters {
   background: transparent;
   border: none;
-  color: var(--text-secondary);
+  font-size: 0.85rem;
   cursor: pointer;
-  font-size: 0.875rem;
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  transition: var(--transition);
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  color: #666666;
 }
 
 .clear-filters:hover {
-  background: var(--btn-secondary-bg);
-  color: var(--text-primary);
+  background: #f5f5f5;
+  color: #710808;
 }
 
 .filter-group {
@@ -54,305 +60,165 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+  color: #333333;
 }
 
-/* Estilos base para inputs e selects */
+.filter-label i {
+  color: #710808;
+  font-size: 0.85rem;
+}
+
 .search-input,
 .filter-select {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid var(--input-border);
+  padding: 10px 14px;
+  border: 1px solid #d0d0d0;
   border-radius: 8px;
-  background: var(--input-bg);
-  color: var(--text-primary);
-  font-size: 0.875rem;
-  transition: all 0.3s ease;
+  background: #ffffff;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  font-family: inherit;
   cursor: pointer;
+  color: #333333;
+  box-sizing: border-box;
 }
 
-/* REMOVE QUALQUER OUTLINE AZUL DO NAVEGADOR */
-.search-input:focus,
-.search-input:focus-visible,
-.filter-select:focus,
-.filter-select:focus-visible,
-.price-input:focus,
-.price-input:focus-visible {
-  outline: none !important;
-  outline-color: transparent !important;
-  box-shadow: none !important;
-}
-
-/* HOVER - cor #710808 */
-.search-input:hover,
-.filter-select:hover {
-  border-color: #710808 !important;
-}
-
-/* FOCUS - cor #710808 */
 .search-input:focus,
 .filter-select:focus {
-  border-color: #710808 !important;
-  box-shadow: 0 0 0 2px rgba(113, 8, 8, 0.2) !important;
-}
-
-/* ESTILOS ESPECÍFICOS DO SELECT - TODOS COM #710808 */
-.filter-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23710808' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px;
-  padding-right: 36px;
-}
-
-/* Remove TODOS os outlines e efeitos azuis em qualquer estado do select */
-.filter-select:focus,
-.filter-select:focus-visible,
-.filter-select:focus-within,
-.filter-select:active {
-  outline: none !important;
-  outline-color: transparent !important;
-  box-shadow: none !important;
-}
-
-/* Aplica a cor #710808 quando focado */
-.filter-select:focus {
-  border-color: #710808 !important;
-  box-shadow: 0 0 0 2px rgba(113, 8, 8, 0.2) !important;
-}
-
-/* ESTILOS DAS OPÇÕES DO SELECT - TODOS COM #710808 */
-
-/* Fundo das opções quando selecionadas */
-.filter-select option:checked,
-.filter-select option:selected {
-  background: #710808 !important;
-  color: white !important;
-  background-image: linear-gradient(0deg, #710808 0%, #710808 100%) !important;
-}
-
-/* Hover nas opções */
-.filter-select option:hover {
-  background: #710808 !important;
-  color: white !important;
-  cursor: pointer;
-}
-
-/* Quando a opção está ativa/focada */
-.filter-select option:active,
-.filter-select option:focus {
-  background: #710808 !important;
-  color: white !important;
-}
-
-/* Para Firefox - remove highlight azul e usa #710808 */
-.filter-select option:-moz-focusring {
-  background: #710808 !important;
-  color: white !important;
-  outline: none !important;
-}
-
-.filter-select:focus::-moz-focus-inner {
-  border-color: #710808 !important;
-}
-
-/* Para Firefox - remove o fundo azul do select quando focado */
-.filter-select:-moz-focusring {
-  color: transparent;
-  text-shadow: 0 0 0 var(--text-primary);
-}
-
-/* Remove o fundo azul do select no Safari quando clicado */
-.filter-select:active {
-  background-color: var(--input-bg);
-}
-
-/* Borda do select em hover */
-.filter-select:hover {
-  border-color: #710808 !important;
+  outline: none;
+  border-color: #710808;
+  box-shadow: 0 0 0 3px rgba(113, 8, 8, 0.1);
 }
 
 .search-input::placeholder {
-  color: var(--text-secondary);
+  color: #999999;
 }
 
-/* Price Range Styles */
-.price-range {
-  margin-top: 8px;
+.filter-select option {
+  color: #333333;
+  background: #ffffff;
 }
 
-.price-inputs {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.price-input-wrapper {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: var(--input-bg);
-  border: 1px solid var(--input-border);
-  border-radius: 8px;
-  padding: 0 8px;
-  transition: all 0.3s ease;
-}
-
-.price-input-wrapper:hover {
+.price-range-select {
+  background: #710808;
+  color: #ffffff;
   border-color: #710808;
+  font-weight: 500;
 }
 
-.price-input-wrapper span {
-  color: var(--text-secondary);
-  font-size: 0.875rem;
+.price-range-select option {
+  background: #ffffff;
+  color: #333333;
 }
 
-.price-input {
-  width: 100%;
-  padding: 8px 0;
-  border: none;
-  background: transparent;
-  color: var(--text-primary);
-  font-size: 0.875rem;
-}
-
-/* Remove outline azul do input de preço */
-.price-input:focus {
-  outline: none !important;
-}
-
-.price-separator {
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-}
-
-.slider-container {
-  position: relative;
-  height: 40px;
+.price-info {
   display: flex;
+  align-items: center;
   gap: 8px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #666666;
 }
 
-.price-slider {
-  flex: 1;
-  height: 4px;
-  background: var(--slider-bg);
-  border-radius: 4px;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-/* Remove outline azul do slider */
-.price-slider:focus {
-  outline: none !important;
-}
-
-.price-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  background: #710808;
-  border-radius: 50%;
-  cursor: pointer;
-  border: none;
-  transition: all 0.3s ease;
-}
-
-.price-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-  background: #8a0a0a;
-}
-
-.price-slider::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  background: #710808;
-  border-radius: 50%;
-  cursor: pointer;
-  border: none;
-  transition: all 0.3s ease;
-}
-
-.price-slider::-moz-range-thumb:hover {
-  transform: scale(1.2);
-  background: #8a0a0a;
-}
-
-.price-slider::-webkit-slider-runnable-track {
-  height: 4px;
-  background: var(--slider-bg);
-  border-radius: 4px;
+.price-info i {
+  color: #710808;
+  font-size: 0.7rem;
 }
 
 .filter-result {
-  background: var(--btn-secondary-bg);
+  background: #f5f5f5;
   padding: 12px;
   border-radius: 8px;
-  text-align: center;
-  margin: 20px 0 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: var(--text-primary);
+  margin: 20px 0 16px;
+  font-size: 0.9rem;
   font-weight: 600;
-  font-size: 0.875rem;
+  color: #333333;
+}
+
+.filter-result i {
+  color: #710808;
+  font-size: 0.9rem;
 }
 
 .filter-stats {
   display: flex;
-  gap: 16px;
+  justify-content: space-between;
   padding-top: 16px;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid #e0e0e0;
+  gap: 12px;
 }
 
 .stat-item {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  color: var(--text-secondary);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  padding: 8px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  color: #666666;
 }
 
 .stat-item i {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  color: #710808;
 }
 
-@media (max-width: 768px) {
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
   .filters-container {
     padding: 20px;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .filters-container {
     padding: 16px;
   }
-  
-  .price-inputs {
-    flex-direction: column;
-    gap: 8px;
+  .filter-group {
+    margin-bottom: 18px;
   }
-  
-  .price-input-wrapper {
-    width: 100%;
+  .filters-header {
+    margin-bottom: 18px;
   }
-  
-  .price-separator {
-    display: none;
-  }
-  
+}
+
+@media (max-width: 480px) {
   .filter-stats {
     flex-direction: column;
     gap: 8px;
+  }
+  .stat-item {
+    justify-content: flex-start;
+    padding: 8px 12px;
+  }
+  .filter-result {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+  .price-info {
+    font-size: 0.7rem;
   }
 }

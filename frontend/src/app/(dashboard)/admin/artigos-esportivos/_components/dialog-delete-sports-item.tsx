@@ -1,6 +1,6 @@
 'use client'
 
-import { destroySportsItem } from '@/actions/sportsItem'
+import { destroyArticles } from '@/actions/articles'
 import { Button } from '@/components/button'
 import {
   Dialog,
@@ -14,29 +14,48 @@ import {
 import { useToast } from '@/components/use-toast'
 import { useState } from 'react'
 
-interface DialogCreateSportsItemProps {
+interface DialogSportsItemDeleteProps {
   id: string
   children: React.ReactNode
+  onSuccess?: (id: string) => void
 }
 
-export function DialogSportsItemDelete({ id, children }: DialogCreateSportsItemProps) {
-  const [open, setOpen] = useState<boolean>()
+export function DialogSportsItemDelete({ id, children, onSuccess }: DialogSportsItemDeleteProps) {
+  const [open, setOpen] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const { toast } = useToast()
 
   const submit = async () => {
-    const { error } = await JSON.parse(await destroySportsItem(id))
+    setIsDeleting(true)
 
-    if (error) {
+    try {
+      const resultString = await destroyArticles(id)
+      const result = JSON.parse(resultString)
+
+      if (result.error) {
+        toast({
+          title: 'Erro',
+          description: result.error.message || 'Não foi possível excluir o artigo esportivo!',
+          variant: 'destructive',
+        })
+        setIsDeleting(false)
+      } else {
+        toast({
+          title: 'Sucesso',
+          description: 'Artigo esportivo deletado com sucesso!',
+        })
+        setOpen(false)
+        setIsDeleting(false)
+        onSuccess?.(id)
+      }
+    } catch (error) {
       toast({
-        title: 'Não foi possível excluir o artigo esportivo!',
+        title: 'Erro',
+        description: 'Erro ao tentar excluir o artigo esportivo!',
+        variant: 'destructive',
       })
-    } else {
-      toast({
-        title: 'Artigo esportivo deletado com sucesso!',
-      })
+      setIsDeleting(false)
     }
-
-    setOpen(false)
   }
 
   return (
@@ -44,27 +63,29 @@ export function DialogSportsItemDelete({ id, children }: DialogCreateSportsItemP
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Confirmar exclusão do artigo esportivo</DialogTitle>
+          <DialogTitle>Confirmar exclusão de artigo esportivo</DialogTitle>
           <DialogDescription>
             Tem certeza de que deseja excluir este artigo esportivo? Esta ação é
-            irreversível e removerá permanentemente o artigo esportivo do sistema. Deseja
-            continuar com a exclusão?
+            irreversível e removerá permanentemente o artigo do sistema.
           </DialogDescription>
         </DialogHeader>
-        <form action={submit}>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              type="button"
-              onClick={() => setOpen(false)}
-            >
-              Cancelar
-            </Button>
-            <Button variant="destructive" type="submit">
-              Excluir
-            </Button>
-          </DialogFooter>
-        </form>
+        <DialogFooter>
+          <Button
+            variant="outline"
+            type="button"
+            onClick={() => setOpen(false)}
+            disabled={isDeleting}
+          >
+            Cancelar
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={submit}
+            disabled={isDeleting}
+          >
+            {isDeleting ? 'Excluindo...' : 'Excluir'}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

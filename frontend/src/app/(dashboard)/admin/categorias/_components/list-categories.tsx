@@ -1,39 +1,74 @@
+'use client'
+
 import { DashboardContainer } from '@/components/dashboard/dashboard-items'
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/dashboard/table'
-
-import { categoryType } from '@/types/category'
+import { CategoryType } from '@/types/category'
 import { Button } from '@/components/button'
 import { LuInfo, LuPen, LuPlusCircle, LuTrash } from 'react-icons/lu'
 import { DialogUpdateCategory } from './dialog-update-category'
 import { DialogCategoryDelete } from './dialog-delete-category'
 import { DialogInformationCategory } from './dialog-information-category'
 import { DialogCreateCategory } from './dialog-create-category'
+import { useEffect, useState } from 'react'
+import { api } from '@/services/api'
 
-export default async function ListCategory() {
-  const { response } = null // requisicao para api
+export default function ListCategory() {
+  const [categories, setCategories] = useState<CategoryType[]>([])
+  const [loading, setLoading] = useState(true)
 
-  if (!response) {
+  const loadCategories = async () => {
+    setLoading(true)
+    const { response, error } = await api('GET', '/category')
+    if (response) {
+      setCategories(response as CategoryType[])
+    } else {
+      console.error(error?.message)
+    }
+    setLoading(false)
+  }
+
+  // Atualiza a categoria na lista
+  const handleUpdateCategory = (updatedCategory: CategoryType) => {
+    setCategories(prevCategories =>
+      prevCategories.map(cat =>
+        cat.id === updatedCategory.id ? updatedCategory : cat
+      )
+    )
+  }
+
+  // Adiciona nova categoria
+  const handleCreateCategory = (newCategory: CategoryType) => {
+    setCategories(prev => [newCategory, ...prev])
+  }
+
+  // Remove categoria
+  const handleDeleteCategory = (id: string) => {
+    setCategories(prev => prev.filter(cat => cat.id !== id))
+  }
+
+  useEffect(() => {
+    loadCategories()
+  }, [])
+
+  if (loading) {
     return (
-      <DashboardContainer className="text-destructive">
-        Não foi possível obter as categorias.
+      <DashboardContainer>
+        Carregando categorias...
       </DashboardContainer>
     )
   }
 
-  const categories: categoryType[] = response
-
   return (
     <>
       <DashboardContainer className="flex h-min justify-between space-x-0 gap-y-2.5 max-sm:flex-col">
-        <DialogCreateCategory>
+        <DialogCreateCategory onSuccess={handleCreateCategory}>
           <Button size="sm">
             <LuPlusCircle />
             Nova categoria
@@ -49,7 +84,7 @@ export default async function ListCategory() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {categories?.map((category: categoryType) => (
+            {categories.map((category) => (
               <TableRow key={category.id}>
                 <TableCell>{category.name}</TableCell>
                 <TableCell className="flex justify-end gap-2">
@@ -58,12 +93,18 @@ export default async function ListCategory() {
                       <LuInfo />
                     </Button>
                   </DialogInformationCategory>
-                  <DialogUpdateCategory id={category.id}>
+                  <DialogUpdateCategory
+                    id={category.id}
+                    onSuccess={handleUpdateCategory}
+                  >
                     <Button variant="secondary-inverse" size="icon">
                       <LuPen />
                     </Button>
                   </DialogUpdateCategory>
-                  <DialogCategoryDelete id={category.id}>
+                  <DialogCategoryDelete
+                    id={category.id}
+                    onSuccess={handleDeleteCategory}
+                  >
                     <Button variant="destructive-inverse" size="icon">
                       <LuTrash />
                     </Button>
@@ -72,9 +113,6 @@ export default async function ListCategory() {
               </TableRow>
             ))}
           </TableBody>
-          {!categories.length && (
-            <TableCaption>Nenhuma categoria encontrada.</TableCaption>
-          )}
         </Table>
       </DashboardContainer>
     </>

@@ -9,42 +9,51 @@ import {
   DialogDescription,
 } from '@/components/dialog'
 import FormFieldsSportsItem from './form-fields-sports-item'
-import { createSportsItem } from '@/actions/sportsItem'
+import { createArticles } from '@/actions/articles'
 import { filterFormData } from '@/services/filter-form-data'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useToast } from '@/components/use-toast'
-import { ResponseErrorType } from '@/services/api'
+import { ResponseErrorType, api } from '@/services/api'
+import { sportsItemType } from '@/types/sportsItem'
 
 interface DialogCreateSportsItemProps {
   children: React.ReactNode
+  onSuccess?: (newItem: sportsItemType) => void
 }
 
-export function DialogCreateSportsItem({ children }: DialogCreateSportsItemProps) {
-  const [open, setOpen] = useState<boolean>()
+export function DialogCreateSportsItem({ children, onSuccess }: DialogCreateSportsItemProps) {
+  const [open, setOpen] = useState(false)
   const [error, setError] = useState<ResponseErrorType | null>(null)
+  const [isCreating, setIsCreating] = useState(false)
   const { toast } = useToast()
 
-  useEffect(() => {
-    if (!open) {
-      setError(null)
-    }
-  }, [open])
-
   const submit = async (form: FormData) => {
+    setIsCreating(true)
     const newForm = await filterFormData(form)
 
-    const { error } = await JSON.parse(await createSportsItem(newForm))
+    const resultString = await createArticles(newForm)
+    const result = JSON.parse(resultString)
 
-    if (error) {
-      setError(error)
+    if (result.error) {
+      setError(result.error)
       toast({
-        title: 'Não foi possível criar o artigo esportivo!',
+        title: 'Erro',
+        description: result.error.message || 'Não foi possível criar o artigo esportivo!',
+        variant: 'destructive',
       })
+      setIsCreating(false)
     } else {
       toast({
-        title: 'Artigo esportivo criado com sucesso!',
+        title: 'Sucesso',
+        description: 'Artigo esportivo criado com sucesso!',
       })
+
+      const newItem = result.response as sportsItemType
+
       setOpen(false)
+      setError(null)
+      setIsCreating(false)
+      onSuccess?.(newItem)
     }
   }
 
@@ -53,14 +62,13 @@ export function DialogCreateSportsItem({ children }: DialogCreateSportsItemProps
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Adicionar artigo esportivo</DialogTitle>
+          <DialogTitle>Criar novo artigo esportivo</DialogTitle>
           <DialogDescription>
-            Preencha as informações do novo artigo esportivo abaixo e clique em
-            &rdquo;Salvar&rdquo; para incluí-lo no sistema.
+            Preencha os campos abaixo para criar um novo artigo esportivo.
           </DialogDescription>
         </DialogHeader>
         <form action={submit}>
-          <FormFieldsSportsItem error={error} />
+          <FormFieldsSportsItem error={error} isPending={isCreating} />
         </form>
       </DialogContent>
     </Dialog>

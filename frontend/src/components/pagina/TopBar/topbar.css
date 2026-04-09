@@ -43,7 +43,7 @@
     transform: translateY(-100%);
 }
 
-/* Responsividade */
+
 @media (max-width: 768px) {
     .topBar {
         font-size: 12px;
@@ -68,7 +68,7 @@
     }
 }
 
-/* NOVO - iPhone SE (375px) */
+
 @media (max-width: 375px) {
     .topBar {
         font-size: 10px;
@@ -88,7 +88,7 @@
     }
 }
 
-/* ========== DARK MODE ========== */
+
 [data-theme='dark'] .topBar {
   background-color: #4d4d4d;
 }
