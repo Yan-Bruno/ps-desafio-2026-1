@@ -21,7 +21,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
         ]);
 
-        //
+        // ADICIONADO: Desabilita CSRF para rotas de compra
+        $middleware->validateCsrfTokens(except: [
+            'articles/*/buy',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
